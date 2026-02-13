@@ -1,21 +1,25 @@
 #!/bin/bash
 set -e
 
-# This script runs on every deployment.
-
 echo "--- Preparing application for production ---"
 
-# Clear any cached configuration, routes, or views.
-# This is crucial to ensure the latest environment variables are used.
+# 1. Clear all caches to ensure fresh configuration
+echo "Clearing all caches..."
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
+php artisan cache:clear
 
-# Run database migrations to ensure the schema is up to date.
+# 2. Run database migrations and seeding
+echo "Running migrations and seeding..."
 php artisan migrate --force
-
-# Seed the database with initial data (users, schedules, etc.).
 php artisan db:seed --force
+
+# 3. Cache everything for production performance
+echo "Caching configuration for production..."
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 
 echo "--- Starting application server ---"
 php artisan serve --host=0.0.0.0 --port=$PORT
