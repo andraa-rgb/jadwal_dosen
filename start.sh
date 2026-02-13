@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+echo "--- DEBUGGING DATABASE ENV VARS ---"
+echo "MYSQLHOST: $MYSQLHOST"
+echo "MYSQLPORT: $MYSQLPORT"
+echo "MYSQLDATABASE: $MYSQLDATABASE"
+echo "MYSQLUSER: $MYSQLUSER"
+echo "MYSQLPASSWORD: (hidden)"
+echo "------------------------------------"
+
 echo "--- Preparing application for production ---"
 
 # 1. Clear all caches to ensure fresh configuration
