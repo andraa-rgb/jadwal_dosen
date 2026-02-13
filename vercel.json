@@ -1,11 +1,23 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "public",
+  "functions": {
+    "api/index.php": {
+      "runtime": "php@latest"
+    }
+  },
   "routes": [
     {
+      "src": "/(.*)\\.(js|css|ico|gif|svg|jpg|jpeg|png|woff|woff2)",
+      "dest": "/public/$1.$2"
+    },
+    {
+      "src": "^/(?!public|api)(.*)$",
+      "dest": "/api/index.php"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/api/index.php",
-      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"]
+      "dest": "/api/index.php"
     }
   ]
 }
