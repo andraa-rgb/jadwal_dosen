@@ -5,7 +5,8 @@
     "packageManager": "pnpm@7.5.1",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "vercel-build": "composer install --no-dev --optimize-autoloader && pnpm install && pnpm run build"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",

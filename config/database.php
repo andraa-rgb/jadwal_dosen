@@ -58,21 +58,9 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => call_user_func(function () {
-                if (!extension_loaded('pdo_mysql')) {
-                    return [];
-                }
-
-                // For Vercel deployment: write the CA cert from env to a temp file
-                if ($caCertContent = env('TIDB_CA_CERT_CONTENT')) {
-                    $tempCaPath = tempnam(sys_get_temp_dir(), 'tidb-ca');
-                    file_put_contents($tempCaPath, $caCertContent);
-                    return [\PDO::MYSQL_ATTR_SSL_CA => $tempCaPath];
-                }
-
-                // For local development
-                return array_filter([\PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA')]);
-            }),
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                \PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
         ],
 
         'mariadb' => [
